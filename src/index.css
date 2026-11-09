@@ -1,1 +1,138 @@
 @import "tailwindcss";
+
+/* Visual language shared with the Engineering Course Planning Calculator
+   and the CEN100 Assignment Calculator. */
+@theme {
+  --font-sans: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+  --color-brand: #8a24a8;      /* header bar */
+  --color-accent: #a009d7;     /* highlights, focus, active states */
+  --color-sun: #ffe14d;        /* primary (yellow) buttons */
+  --color-royal: #1857b8;      /* secondary (blue) buttons */
+  --color-card: #676cbc;       /* calculator cards */
+  --color-panel: #f7f7fa;      /* input backgrounds */
+  --color-sidebar: #e7ecff;    /* sidebars, soft chips */
+  --color-ink: #222;
+  --color-ink-muted: #444;
+  --color-danger: #d7263d;
+  --color-amber-soft: #fff9db;
+  --color-amber-line: #fcc419;
+
+  --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lift: 0 6px 16px rgba(0, 0, 0, 0.15);
+
+  --animate-fade-in: fade-in 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-white text-ink antialiased;
+    line-height: 1.5;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  select:focus-visible,
+  input[type="checkbox"]:focus-visible {
+    outline: 3px solid #7f39fb;
+    outline-offset: 2px;
+  }
+
+  /* Hide number spinners: they're tiny targets and easy to bump by accident. */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@layer components {
+  /* Buttons: same bouncy lift as the course planner. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-base font-semibold
+      text-center leading-snug cursor-pointer no-underline;
+    box-shadow: 0 1px 4px rgba(80, 0, 120, 0.07);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  }
+  .btn:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: var(--shadow-lift);
+  }
+  .btn-yellow { @apply bg-sun text-ink; }
+  .btn-blue { @apply bg-royal text-white; }
+
+  /* Ghost pill used on the purple cards (Reset, etc.) */
+  .btn-ghost {
+    @apply inline-flex items-center rounded-full border border-white/60 bg-transparent px-3 py-1
+      text-sm font-semibold text-white cursor-pointer transition-colors;
+  }
+  .btn-ghost:hover { @apply bg-white/15; }
+
+  .sidebar-card {
+    @apply mb-6 rounded-xl bg-white px-[18px] pt-5 pb-4 shadow-card;
+  }
+  .sidebar-heading {
+    @apply mb-4 flex items-center gap-2.5 text-[1.05rem] font-bold;
+  }
+
+  /* Calculator card: purple with white text, white panels inside. */
+  .section-card {
+    @apply rounded-2xl bg-card px-5 py-7 text-white shadow-card animate-fade-in sm:px-11 sm:py-10;
+  }
+  .panel {
+    @apply rounded-xl bg-white p-3 text-ink sm:p-5;
+  }
+
+  .stat {
+    @apply rounded-xl bg-white p-4 text-ink shadow-card;
+  }
+  .stat-label { @apply text-sm font-medium text-ink-muted; }
+  .stat-value { @apply mt-1 text-3xl font-bold sm:text-4xl; }
+
+  .field {
+    @apply w-full min-h-11 rounded-lg border border-transparent bg-panel px-3.5 py-2 text-base text-ink;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+  }
+  .field:focus {
+    @apply border-accent bg-white outline-none;
+    box-shadow: 0 0 0 4px rgba(160, 9, 215, 0.25);
+  }
+  .field[aria-invalid="true"] {
+    @apply border-danger bg-red-50;
+  }
+
+  .field-label {
+    @apply mb-1 block text-sm font-semibold text-ink;
+  }
+  .field-hint {
+    @apply font-normal text-ink-muted/80;
+  }
+
+  /* Callouts (amber = advice, matches the planner's .popup / .load-warning) */
+  .callout {
+    @apply rounded border-l-4 px-4 py-3 font-semibold text-ink;
+  }
+  .callout-info { @apply border-amber-line bg-amber-soft; }
+  .callout-success { @apply border-emerald-500 bg-emerald-50 text-emerald-900; }
+  .callout-danger { @apply border-danger bg-red-50 text-red-900; }
+  .callout-neutral { @apply border-slate-400 bg-slate-50 text-slate-700; }
+
+  .chip {
+    @apply inline-flex items-center rounded-full bg-sidebar px-2.5 text-sm font-semibold leading-7 text-royal;
+  }
+
+  .icon-btn {
+    @apply inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 transition-colors
+      hover:bg-red-50 hover:text-danger disabled:pointer-events-none disabled:opacity-30;
+  }
+}
