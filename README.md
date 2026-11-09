@@ -23,6 +23,10 @@ A grade and GPA calculator for Toronto Metropolitan University (TMU) engineering
 - [Branches and remotes](#branches-and-remotes)
 - [Contributing](#contributing)
 
+![FYEO GPA Calculator](docs/screenshots/01-overview.png)
+
+More screenshots of each feature are in [`docs/screenshots/`](docs/screenshots/). The [developer map](docs/screenshots/02-dev-map.png) labels each part of the page with the file that controls it.
+
 ---
 
 ## Features
